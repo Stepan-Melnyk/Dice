@@ -26,10 +26,10 @@ body {
   }
   
   .dice {
-    width: 60px;
-    height: 60px;
+    width: 70px;         /* ширина кубика */
+    height: 70px;        /* висота кубика */
     margin: 5px;
-    font-size: 2rem;
+    font-size: 5rem;     /* розмір емодзі */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,6 +37,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.2);
   }
+  
   
   .buttons button {
     margin: 5px;
