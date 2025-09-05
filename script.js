@@ -4,6 +4,9 @@ const rollBtn = document.getElementById("roll-btn");
 const addBtn = document.getElementById("add-dice-btn");
 const removeBtn = document.getElementById("remove-dice-btn");
 const sumBox = document.getElementById("sum-box");
+const hideBtn = document.getElementById("hide-btn");
+
+let hidden = false;
 
 const pipPatterns = {
   1: [4],
@@ -17,6 +20,7 @@ const pipPatterns = {
 function createFace(value, className) {
   const face = document.createElement("div");
   face.classList.add("face", className);
+
   const grid = document.createElement("div");
   grid.classList.add("pip-grid");
 
@@ -25,6 +29,7 @@ function createFace(value, className) {
     cell.classList.add("pip");
     if (pipPatterns[value].includes(i)) {
       cell.textContent = "⚫";
+      if (hidden) cell.style.visibility = "hidden"; // приховуємо при потребі
     }
     grid.appendChild(cell);
   }
@@ -47,12 +52,23 @@ function createDice() {
   return dice;
 }
 
+// Універсальна функція для будь-якої кількості кубиків
 function renderDice() {
   diceContainer.innerHTML = "";
-  for (let i = 0; i < diceCount; i++) {
-    const dice = createDice();
-    diceContainer.appendChild(dice);
-  }
+
+  const topRow = document.createElement("div");
+  topRow.classList.add("row");
+  const bottomRow = document.createElement("div");
+  bottomRow.classList.add("row");
+
+  const topCount = Math.ceil(diceCount / 2);
+  const bottomCount = diceCount - topCount;
+
+  for (let i = 0; i < topCount; i++) topRow.appendChild(createDice());
+  for (let i = 0; i < bottomCount; i++) bottomRow.appendChild(createDice());
+
+  diceContainer.appendChild(topRow);
+  if (bottomRow.children.length) diceContainer.appendChild(bottomRow);
 }
 
 function rollDice() {
@@ -76,11 +92,14 @@ function rollDice() {
   sumBox.textContent = sum;
 }
 
+// Кнопки
 rollBtn.addEventListener("click", rollDice);
+
 addBtn.addEventListener("click", () => {
   diceCount++;
   renderDice();
 });
+
 removeBtn.addEventListener("click", () => {
   if (diceCount > 1) {
     diceCount--;
@@ -88,16 +107,16 @@ removeBtn.addEventListener("click", () => {
   }
 });
 
-renderDice();
-const hideBtn = document.getElementById("hide-btn");
-let hidden = false;
-
 hideBtn.addEventListener("click", () => {
-  hidden = !hidden; // перемикач стану
-
+  hidden = !hidden;
   document.querySelectorAll(".pip").forEach(pip => {
     pip.style.visibility = hidden ? "hidden" : "visible";
   });
-
   hideBtn.textContent = hidden ? "Показати" : "Приховати";
 });
+
+// Початковий рендер
+renderDice();
+
+  
+  
