@@ -71,26 +71,33 @@ function renderDice() {
   if (bottomRow.children.length) diceContainer.appendChild(bottomRow);
 }
 
+let rollCount = 0;
+
 function rollDice() {
-  let sum = 0;
-  document.querySelectorAll(".dice").forEach(dice => {
-    const value = Math.floor(Math.random() * 6) + 1;
-    sum += value;
-
-    let x = 0, y = 0;
-    switch(value) {
-      case 1: x = 0; y = 0; break;
-      case 2: x = 0; y = 180; break;
-      case 3: x = 0; y = -90; break;
-      case 4: x = 0; y = 90; break;
-      case 5: x = -90; y = 0; break;
-      case 6: x = 90; y = 0; break;
-    }
-
-    dice.style.transform = `rotateX(${x + 360}deg) rotateY(${y + 360}deg)`;
-  });
-  sumBox.textContent = sum;
-}
+    rollCount++; // кожен кидок збільшує лічильник
+    let sum = 0;
+  
+    document.querySelectorAll(".dice").forEach(dice => {
+      const value = Math.floor(Math.random() * 6) + 1;
+      sum += value;
+  
+      let x = 0, y = 0;
+      switch(value) {
+        case 1: x = 0; y = 0; break;
+        case 2: x = 0; y = 180; break;
+        case 3: x = 0; y = -90; break;
+        case 4: x = 0; y = 90; break;
+        case 5: x = -90; y = 0; break;
+        case 6: x = 90; y = 0; break;
+      }
+  
+      const extraSpins = rollCount * 360; // додаткові оберти
+      dice.style.transform = `rotateX(${x + 360 + extraSpins}deg) rotateY(${y + 360 + extraSpins}deg)`;
+    });
+  
+    sumBox.textContent = sum;
+  }
+  
 
 // Кнопки
 rollBtn.addEventListener("click", rollDice);

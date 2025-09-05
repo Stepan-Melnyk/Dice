@@ -1,74 +1,92 @@
+/* --- Загальний фон і стилі --- */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f5f5f5;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     flex-direction: column;
-  }
-  
-  .dice-container {
+
+    /* Гарний градієнтний фон */
+    background: linear-gradient(135deg, #f0e4d7, #d9cbb7);
+}
+
+/* --- Контейнер кубиків --- */
+.dice-container {
     display: flex;
     flex-direction: column; /* щоб рядки йшли вертикально */
     align-items: center;
     perspective: 1000px;
     gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .dice {
+    margin-bottom: 30px; /* відступ від кнопок */
+}
+
+/* --- Ряд кубиків --- */
+.row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* --- Кубик --- */
+.dice {
     width: 80px;
     height: 80px;
     margin: 10px;
     position: relative;
     transform-style: preserve-3d;
     transition: transform 1s ease-out;
-  }
-  
-  .face {
+}
+
+/* --- Грані кубика --- */
+.face {
     position: absolute;
     width: 80px;
     height: 80px;
-    background: white;
+    background: #f5f5dc; /* слонова кістка */
     border: 2px solid #333;
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
-  }
-  
-  /* позиції граней */
-  .front  { transform: rotateY(0deg) translateZ(40px); }
-  .back   { transform: rotateY(180deg) translateZ(40px); }
-  .right  { transform: rotateY(90deg) translateZ(40px); }
-  .left   { transform: rotateY(-90deg) translateZ(40px); }
-  .top    { transform: rotateX(90deg) translateZ(40px); }
-  .bottom { transform: rotateX(-90deg) translateZ(40px); }
-  
-  .pip-grid {
+}
+
+/* позиції граней */
+.front  { transform: rotateY(0deg) translateZ(40px); }
+.back   { transform: rotateY(180deg) translateZ(40px); }
+.right  { transform: rotateY(90deg) translateZ(40px); }
+.left   { transform: rotateY(-90deg) translateZ(40px); }
+.top    { transform: rotateX(90deg) translateZ(40px); }
+.bottom { transform: rotateX(-90deg) translateZ(40px); }
+
+/* --- Крапки на кубику --- */
+.pip-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     width: 100%;
     height: 100%;
-  }
-  .pip {
+}
+.pip {
     font-size: 0.8rem;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .controls {
+    color: #333; /* темні кружки на слоновій кістці */
+}
+
+/* --- Контролі --- */
+.controls {
     display: flex;
     flex-direction: column;
     gap: 10px;
-  }
-  
-  button {
+    margin-top: 10px; /* відступ від кубиків */
+}
+
+/* --- Кнопки --- */
+button {
     padding: 12px;
     font-size: 1.2rem;
     border: none;
@@ -76,13 +94,14 @@ body {
     background: #007bff;
     color: white;
     cursor: pointer;
-  }
-  
-  button:hover {
+    transition: background 0.3s;
+}
+button:hover {
     background: #0056b3;
-  }
-  
-  #sum-box {
+}
+
+/* --- Сума кубиків --- */
+#sum-box {
     width: 100px;
     height: 60px;
     background: #007bff;
@@ -94,11 +113,6 @@ body {
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
-  }
-  .row {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-  }
-  
+}
+
   
