@@ -125,5 +125,9 @@ hideBtn.addEventListener("click", () => {
 // Початковий рендер
 renderDice();
 
-  
+// Заборона pinch-to-zoom на iOS Safari
+document.addEventListener('gesturestart', function (e) {
+    e.preventDefault();
+});
+
   
