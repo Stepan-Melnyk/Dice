@@ -1,66 +1,103 @@
-let diceCount = 5; // старт з 5 кубиків
+let diceCount = 2;
 const diceContainer = document.getElementById("dice-container");
 const rollBtn = document.getElementById("roll-btn");
-const addDiceBtn = document.getElementById("add-dice-btn");
-const removeDiceBtn = document.getElementById("remove-dice-btn");
+const addBtn = document.getElementById("add-dice-btn");
+const removeBtn = document.getElementById("remove-dice-btn");
+const sumBox = document.getElementById("sum-box");
 
-// додаємо кнопку "Приховати"
-const toggleBtn = document.createElement("button");
-toggleBtn.textContent = "Приховати";
-document.querySelector(".buttons").appendChild(toggleBtn);
+const pipPatterns = {
+  1: [4],
+  2: [0, 8],
+  3: [0, 4, 8],
+  4: [0, 2, 6, 8],
+  5: [0, 2, 4, 6, 8],
+  6: [0, 2, 3, 5, 6, 8],
+};
 
-let showDice = true; // показувати значення кубиків
+function createFace(value, className) {
+  const face = document.createElement("div");
+  face.classList.add("face", className);
+  const grid = document.createElement("div");
+  grid.classList.add("pip-grid");
 
-const diceEmojis = ["\u2680", "\u2681", "\u2682", "\u2683", "\u2684", "\u2685"];
-const resultDisplay = document.createElement("div");
-resultDisplay.id = "result";
-diceContainer.after(resultDisplay);
-
-function rollDice() {
-  diceContainer.innerHTML = "";
-  let sum = 0;
-
-  for (let i = 0; i < diceCount; i++) {
-    const value = Math.floor(Math.random() * 6);
-    sum += value + 1;
-
-    const dice = document.createElement("div");
-    dice.classList.add("dice", "roll");
-    dice.dataset.value = diceEmojis[value]; // зберігаємо значення для приховування
-    dice.textContent = showDice ? diceEmojis[value] : "❔";
-    diceContainer.appendChild(dice);
-
-    dice.addEventListener("animationend", () => {
-      dice.classList.remove("roll");
-    });
+  for (let i = 0; i < 9; i++) {
+    const cell = document.createElement("div");
+    cell.classList.add("pip");
+    if (pipPatterns[value].includes(i)) {
+      cell.textContent = "⚫";
+    }
+    grid.appendChild(cell);
   }
 
-  resultDisplay.textContent = showDice ? `Сума: ${sum}` : "Сума: ???";
+  face.appendChild(grid);
+  return face;
 }
 
-// кнопки
+function createDice() {
+  const dice = document.createElement("div");
+  dice.classList.add("dice");
+
+  dice.appendChild(createFace(1, "front"));
+  dice.appendChild(createFace(2, "back"));
+  dice.appendChild(createFace(3, "right"));
+  dice.appendChild(createFace(4, "left"));
+  dice.appendChild(createFace(5, "top"));
+  dice.appendChild(createFace(6, "bottom"));
+
+  return dice;
+}
+
+function renderDice() {
+  diceContainer.innerHTML = "";
+  for (let i = 0; i < diceCount; i++) {
+    const dice = createDice();
+    diceContainer.appendChild(dice);
+  }
+}
+
+function rollDice() {
+  let sum = 0;
+  document.querySelectorAll(".dice").forEach(dice => {
+    const value = Math.floor(Math.random() * 6) + 1;
+    sum += value;
+
+    let x = 0, y = 0;
+    switch(value) {
+      case 1: x = 0; y = 0; break;
+      case 2: x = 0; y = 180; break;
+      case 3: x = 0; y = -90; break;
+      case 4: x = 0; y = 90; break;
+      case 5: x = -90; y = 0; break;
+      case 6: x = 90; y = 0; break;
+    }
+
+    dice.style.transform = `rotateX(${x + 360}deg) rotateY(${y + 360}deg)`;
+  });
+  sumBox.textContent = sum;
+}
+
 rollBtn.addEventListener("click", rollDice);
-addDiceBtn.addEventListener("click", () => {
+addBtn.addEventListener("click", () => {
   diceCount++;
-  rollDice();
+  renderDice();
 });
-removeDiceBtn.addEventListener("click", () => {
+removeBtn.addEventListener("click", () => {
   if (diceCount > 1) {
     diceCount--;
-    rollDice();
+    renderDice();
   }
 });
 
-// кнопка "Приховати"
-toggleBtn.addEventListener("click", () => {
-  showDice = !showDice;
-  const diceElements = document.querySelectorAll(".dice");
-  diceElements.forEach(dice => {
-    dice.textContent = showDice ? dice.dataset.value : "❔";
-  });
-  // оновлюємо суму
-  rollDice();
-});
+renderDice();
+const hideBtn = document.getElementById("hide-btn");
+let hidden = false;
 
-// перший кидок одразу
-rollDice();
+hideBtn.addEventListener("click", () => {
+  hidden = !hidden; // перемикач стану
+
+  document.querySelectorAll(".pip").forEach(pip => {
+    pip.style.visibility = hidden ? "hidden" : "visible";
+  });
+
+  hideBtn.textContent = hidden ? "Показати" : "Приховати";
+});

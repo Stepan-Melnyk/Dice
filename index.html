@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dice Poker Prototype</title>
+  <title>3D Dice (реальні грані)</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>🎲 Кубики</h1>
-    <div id="dice-container"></div>
+  <h1>🎲 Кубики</h1>
+  <div id="sum-box">0</div>
+  <div class="dice-container" id="dice-container"></div>
 
-    <div class="buttons">
-      <button id="roll-btn">Перемішати</button>
-      <button id="add-dice-btn">+ Кубик</button>
-      <button id="remove-dice-btn">- Кубик</button>
-    </div>
+  <div class="controls">
+    <button id="roll-btn">Кинути</button>
+    <button id="add-dice-btn">+ Кубик</button>
+    <button id="remove-dice-btn">- Кубик</button>
+    <button id="hide-btn">Приховати</button>
   </div>
-  
+
   <script src="script.js"></script>
 </body>
 </html>

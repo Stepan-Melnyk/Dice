@@ -6,64 +6,92 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    flex-direction: column;
   }
   
-  .container {
-    text-align: center;
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  h1 {
-    font-size: 1.5rem;
-  }
-  
-  #dice-container {
+  .dice-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin: 20px 0;
+    margin-bottom: 20px;
+    perspective: 1000px;
   }
   
   .dice {
-    width: 70px;         /* ширина кубика */
-    height: 70px;        /* висота кубика */
-    margin: 5px;
-    font-size: 5rem;     /* розмір емодзі */
+    width: 80px;
+    height: 80px;
+    margin: 10px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1s ease-out;
+  }
+  
+  .face {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: white;
+    border: 2px solid #333;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
   }
   
+  /* позиції граней */
+  .front  { transform: rotateY(0deg) translateZ(40px); }
+  .back   { transform: rotateY(180deg) translateZ(40px); }
+  .right  { transform: rotateY(90deg) translateZ(40px); }
+  .left   { transform: rotateY(-90deg) translateZ(40px); }
+  .top    { transform: rotateX(90deg) translateZ(40px); }
+  .bottom { transform: rotateX(-90deg) translateZ(40px); }
   
-  .buttons button {
-    margin: 5px;
-    padding: 10px 15px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    background: #007bff;
-    color: white;
+  .pip-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    width: 100%;
+    height: 100%;
+  }
+  .pip {
+    font-size: 1.0rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
-  .buttons button:active {
-    transform: scale(0.95);
+  .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
-  .buttons button {
-    margin: 5px;
-    padding: 12px 20px;
+  
+  button {
+    padding: 12px;
     font-size: 1.2rem;
     border: none;
     border-radius: 8px;
-    cursor: pointer;
     background: #007bff;
     color: white;
-}
-
-.buttons button:hover {
+    cursor: pointer;
+  }
+  
+  button:hover {
     background: #0056b3;
-}
+  }
+  
+  #sum-box {
+    width: 100px;
+    height: 60px;
+    background: #007bff;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
